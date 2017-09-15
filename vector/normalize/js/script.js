@@ -12,27 +12,31 @@ function init() {
 		center = new Vector(cw / 2, ch / 2);
 
 	mouse.sub(center);
-	mouse.mult(1.2);
+	mouse.normalize();
+	mouse.mult(100);
 
 	function draw() {
 		ctx.clearRect(0, 0, cw, ch);
 
 		ctx.save();
 
+		drawLine();
+
+		ctx.restore();
+
+		requestAnimationFrame(draw);
+	}
+
+	function drawLine() {
 		ctx.beginPath();
 
 		ctx.translate(cw / 2, ch / 2);
 		ctx.moveTo(0, 0);
 		ctx.lineTo(mouse.x, mouse.y);
-
 		ctx.lineWidth = 2;
 		ctx.stroke();
 
 		ctx.closePath();
-
-		ctx.restore();
-
-		requestAnimationFrame(draw);
 	}
 
 	canvas.addEventListener("mousemove", (e) => {
@@ -40,12 +44,11 @@ function init() {
 		mouse.y = e.layerY;
 
 		mouse.sub(center);
-		mouse.mult(1.2);
+		mouse.normalize();
+		mouse.mult(100);
 	})
 
 	draw();
 }
 
-window.onload = () => {
-	init();
-}
+window.onload = init();

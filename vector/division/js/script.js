@@ -2,17 +2,17 @@ let $ = document.querySelector.bind(document);
 
 canvas = $("canvas");
 
+ctx = canvas.getContext('2d');
+
 cw = canvas.width;
 ch = canvas.height;
-
-ctx = canvas.getContext('2d');
 
 function init() {
 	let mouse = new Vector(0, 0),
 		center = new Vector(cw / 2, ch / 2);
 
-	mouse.sub(center);
-	mouse.mult(1.2);
+	mouse.sub(center)
+	mouse.div(4);
 
 	function draw() {
 		ctx.clearRect(0, 0, cw, ch);
@@ -24,7 +24,6 @@ function init() {
 		ctx.translate(cw / 2, ch / 2);
 		ctx.moveTo(0, 0);
 		ctx.lineTo(mouse.x, mouse.y);
-
 		ctx.lineWidth = 2;
 		ctx.stroke();
 
@@ -40,12 +39,10 @@ function init() {
 		mouse.y = e.layerY;
 
 		mouse.sub(center);
-		mouse.mult(1.2);
-	})
+		mouse.div(4);
+	});
 
 	draw();
 }
 
-window.onload = () => {
-	init();
-}
+window.onload = init();

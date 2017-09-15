@@ -12,27 +12,43 @@ function init() {
 		center = new Vector(cw / 2, ch / 2);
 
 	mouse.sub(center);
-	mouse.mult(1.2);
+
+	let mag = mouse.mag();
+
+	console.log(mag);
 
 	function draw() {
 		ctx.clearRect(0, 0, cw, ch);
 
 		ctx.save();
 
+		drawMag();
+		drawLine();
+
+		ctx.restore();
+
+		requestAnimationFrame(draw);
+	}
+
+	function drawLine() {
 		ctx.beginPath();
 
 		ctx.translate(cw / 2, ch / 2);
 		ctx.moveTo(0, 0);
 		ctx.lineTo(mouse.x, mouse.y);
-
 		ctx.lineWidth = 2;
 		ctx.stroke();
 
 		ctx.closePath();
+	}
 
-		ctx.restore();
+	function drawMag() {
+		ctx.beginPath();
 
-		requestAnimationFrame(draw);
+		ctx.rect(0, 0, mag, 10);
+		ctx.fill();
+
+		ctx.closePath();
 	}
 
 	canvas.addEventListener("mousemove", (e) => {
@@ -40,12 +56,10 @@ function init() {
 		mouse.y = e.layerY;
 
 		mouse.sub(center);
-		mouse.mult(1.2);
+		mag = mouse.mag();
 	})
 
 	draw();
 }
 
-window.onload = () => {
-	init();
-}
+window.onload = init();
